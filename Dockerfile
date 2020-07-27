@@ -1,4 +1,7 @@
-FROM alpine:edge AS build
+FROM alpine:3.12 AS build
+
+ARG TARGETPLATFORM
+
 RUN apk add --no-cache \
     autoconf \
     automake \
@@ -17,7 +20,8 @@ RUN apk add --no-cache \
     wget
 
 WORKDIR /goaccess
-RUN wget https://tar.goaccess.io/goaccess-1.4.tar.gz \
+RUN echo "Target Platform: $TARGETPLATFORM" \
+    &&  wget https://tar.goaccess.io/goaccess-1.4.tar.gz \
     && tar -xzf goaccess-1.4.tar.gz
 
 WORKDIR /goaccess/goaccess-1.4
@@ -26,7 +30,7 @@ RUN autoreconf -fiv \
     && make \
     && make DESTDIR=/dist install
 
-FROM oznu/s6-alpine:3.12
+FROM oznu/s6-alpine:3.12-armhf
 LABEL mainainer="Ryan Harter <ryan@ryanharter.com>"
 
 COPY --from=build /dist /
