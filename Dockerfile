@@ -1,4 +1,4 @@
-FROM alpine:edge AS build
+FROM alpine:3.12 AS build
 RUN apk add --no-cache \
     autoconf \
     automake \
