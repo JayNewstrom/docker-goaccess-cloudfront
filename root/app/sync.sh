@@ -1,6 +1,9 @@
 #!/usr/bin/with-contenv sh
 
-echo "INFO: Starting sync.sh PID $$ $(date)"
+export AWS_SHARED_CREDENTIALS_FILE=/config/.aws/credentials
+export AWS_CONFIG_FILE=/config/.aws/config
+
+echo "INFO: Starting sync.sh PID $$ $(date) as $(whoami)"
 
 if [ -z "$BUCKET" ]; then
   echo "ERROR: Missing BUCKET environment variable."
